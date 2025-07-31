@@ -21,7 +21,7 @@ def get_all_books_in_library(library_name):
 
 def get_librarian_by_library(library_title):
     try:
-        library = Library.objects.get(title=library_title)
-        return library.librarian
+        library = Librarian.objects.get(library=library_title)
+        return library
     except (Library.DoesNotExist, Librarian.DoesNotExist):
         return None
