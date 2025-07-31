@@ -10,12 +10,12 @@ def get_books_by_author(author_name):
         return None
     
 
-def get_books_in_library():
+def get_all_books_in_library(library_name):
     """retrieve all books in all libraries."""
     try:
-        all_books = Book.objects.all()
-        return all_books
-    except Book.DoesNotExist:
+        library =Library.objects.get(name=library_name)
+        return library.books.all()
+    except (Library.DoesNotExist, Book.DoesNotExist):
         return None
     
 
