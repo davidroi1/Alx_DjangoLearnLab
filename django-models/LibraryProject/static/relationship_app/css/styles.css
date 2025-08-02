@@ -1,0 +1,12 @@
+*{
+    padding: 10px
+}
+
+body {
+    background-color: #eb99e0; /* Un bleu très clair (AliceBlue) */
+    font-family: sans-serif;
+}
+
+h1 {
+    color: #005a9c; /* Un bleu foncé */
+}
