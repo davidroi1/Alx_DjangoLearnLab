@@ -8,7 +8,7 @@ from .models import Book
 from .models import Library
 
 
-def get_all_books(request):
+def list_books(request):
     if request.method == 'GET':
         try:
             books = Book.objects.all()
@@ -17,7 +17,7 @@ def get_all_books(request):
             return HttpResponse("No books found.", status=404)
 
 
-class GetLibraryList(ListView):
+class LibraryDetailView(ListView):
     model = Library
     templat = 'relationship_app/library_detail.html'
     context = 'libraries'
