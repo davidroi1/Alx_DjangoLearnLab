@@ -9,13 +9,13 @@ def get_all_books(request):
     if request.method == 'GET':
         try:
             books = Book.objects.all()
-            return render(request, 'list_books.html', {'books': books})
+            return render(request, 'relationship/list_books.html', {'books': books})
         except Book.DoesNotExist:
             return HttpResponse("No books found.", status=404)
 
 
 class GetLibraryList(ListView):
     model = Library
-    templat = 'library_detail.html'
+    templat = 'relationship/library_detail.html'
     context = 'libraries'
 
