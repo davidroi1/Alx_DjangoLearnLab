@@ -19,13 +19,18 @@ def list_books(request):
         return HttpResponse("No books found.", status=404)
 
 
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return HttpResponse("Registration successful.")
+    else:
+        form = UserCreationForm()
+
+
 class LibraryDetailView(ListView):
     model = Library
     template_name = 'relationship_app/library_detail.html'
     context_object_name = 'library'
-
-
-class SignUpView(CreateView):
-    form_class = UserCreationForm
-    template_name = 'relationship_app/register.html'
-    success_url = reverse_lazy('login')
