@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 
