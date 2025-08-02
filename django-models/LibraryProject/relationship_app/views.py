@@ -25,7 +25,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return HttpResponse("Registration successful.")
+            return render(request, 'relationship_app/register.html', {'user': user})
     else:
         form = UserCreationForm()
 
