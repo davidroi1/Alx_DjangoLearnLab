@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from .models import Author, Book, Librarian, Library
 from django.http import HttpResponse
-from django.views.generic import ListView, DetailView
-from . import query_samples
+from django.views.generic import ListView
+
+from .models import Book, Library
 
 
 def get_all_books(request):
