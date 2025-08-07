@@ -45,7 +45,7 @@ def user_passes(user):
 @user_passes_test(user_passes, login_url='/login/')
 def admin_view(request):
     if request.user.profiles.role == 'admin':
-        return render(request, 'relationship_app/admin_dashboard.html', {})
+        return render(request, 'relationship_app/admin_view.html')
     else:
         return HttpResponse("You do not have permission to view this page.", status=403)
 
@@ -53,15 +53,15 @@ def admin_view(request):
 @user_passes_test(user_passes, login_url='/login/')
 def librarian_view(request):
     if request.user.profiles.role == 'librarian':
-        return render(request, 'relationship_app/librarian_dashboard.html', {})
+        return render(request, 'relationship_app/librarian_view.html')
     else:
         return HttpResponse("You do not have permission to view this page.", status=403)
 
 
 @user_passes_test(user_passes, login_url='/login/')
 def member_view(request):
-    if request.user:
-        return HttpResponse("Welcome to the member area, {}".format(request.user.profiles.user.username))
+    if request.user.profiles.role == 'member':
+        return render(request, 'relationship_app/member_view.html')
     else:
         return HttpResponse("You do not have permission to view this page.", status=403)
     
