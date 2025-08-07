@@ -3,6 +3,7 @@ from .models import Book
 from .models import Librarian
 from .models import Author
 from .models import Library
+from .models import UserProfile
 
 
 class BookAdmin(admin.ModelAdmin):
@@ -22,7 +23,13 @@ class LibrarianAdmin(admin.ModelAdmin):
     search_fields = ('name', 'library')
 
 
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'role')
+    search_fields = ('user__username', 'role')
+
+
 admin.site.register(Book, BookAdmin)
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Library, LibraryAdmin)
 admin.site.register(Librarian, LibrarianAdmin)
+admin.site.register(UserProfile, UserProfileAdmin)
