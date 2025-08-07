@@ -5,7 +5,8 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.urls import reverse_lazy
-from django.contrib.auth.decorators import user_passes_test, permission_required
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import permission_required
 from . import models
 
 from .models import Book
@@ -67,7 +68,7 @@ def member_view(request):
         return HttpResponse("You do not have permission to view this page.", status=403)
     
 
-@permission_required
+@permission_required('relationship_app.can_add_book', raise_exception=True)
 def create(request, id):
     try:
         author = models.Author.objects.get(id=id).first()
@@ -80,7 +81,7 @@ def create(request, id):
             return HttpResponse("Failed to create book.", status=400)
 
 
-@permission_required
+@permission_required('relationship_app.can_delete_book', raise_exception=True)
 def delete(request, id):
     try:
         book = models.Book.objects.get(id=id)
@@ -92,7 +93,7 @@ def delete(request, id):
         return HttpResponse(f"An error occurred: {str(e)}", status=500)
     
 
-@permission_required
+@permission_required('relationship_app.can_change_book', raise_exception=True)
 def update(request, id):
     try:
         book = models.Book.objects.get(id=id)
