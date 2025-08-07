@@ -5,7 +5,8 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.urls import reverse_lazy
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, permission_required
+from . import models
 
 from .models import Book
 from .models import Library
@@ -65,3 +66,43 @@ def member_view(request):
     else:
         return HttpResponse("You do not have permission to view this page.", status=403)
     
+
+@permission_required
+def create(request, id):
+    try:
+        author = models.Author.objects.get(id=id).first()
+        if request.method == 'POST':
+            title = request.POST.get('title')
+            if title and author:
+                book = models.Book.objects.create(title=title, author=author)
+                return HttpResponse("Book created successfully.")
+    except HttpResponse.DoesNotExist:
+            return HttpResponse("Failed to create book.", status=400)
+
+
+@permission_required
+def delete(request, id):
+    try:
+        book = models.Book.objects.get(id=id)
+        book.delete()
+        return HttpResponse("Book deleted successfully.")
+    except models.Book.DoesNotExist:
+        return HttpResponse("Book not found.", status=404)
+    except Exception as e:
+        return HttpResponse(f"An error occurred: {str(e)}", status=500)
+    
+
+@permission_required
+def update(request, id):
+    try:
+        book = models.Book.objects.get(id=id)
+        if request.method == 'POST':
+            title = request.POST.get('title')
+            if title:
+                book.title = title
+                book.save()
+        return HttpResponse("Book updated successfully.")
+    except models.Book.DoesNotExist:
+        return HttpResponse("Book not found.", status=404)
+    except Exception as e:
+        return HttpResponse(f"An error occurred: {str(e)}", status=500)
