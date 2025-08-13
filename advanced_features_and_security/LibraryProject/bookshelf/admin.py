@@ -7,7 +7,7 @@ from .models import UserProfile
 from .models import CustomUser
 
 
-class ModelAdmin(admin.ModelAdmin):
+class CustomUserAdmin(admin.ModelAdmin):
     list_display = ['name', 'email', 'date_of_birth', 'profile_photo']
     search_fields = ['email', 'date_of_birth']
 
@@ -38,4 +38,4 @@ admin.site.register(Author, AuthorAdmin)
 admin.site.register(Library, LibraryAdmin)
 admin.site.register(Librarian, LibrarianAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
-admin.site.register(CustomUser, ModelAdmin)
+admin.site.register(CustomUser, CustomUserAdmin)
