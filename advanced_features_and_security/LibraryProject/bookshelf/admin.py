@@ -4,7 +4,7 @@ from .models import Librarian
 from .models import Author
 from .models import Library
 from .models import UserProfile
-from .CustomModels import CustomUserModel
+from .models import CustomUser
 
 
 class ModelAdmin(admin.ModelAdmin):
@@ -38,4 +38,4 @@ admin.site.register(Author, AuthorAdmin)
 admin.site.register(Library, LibraryAdmin)
 admin.site.register(Librarian, LibrarianAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
-admin.site.register(CustomUserModel, ModelAdmin)
+admin.site.register(CustomUser, ModelAdmin)

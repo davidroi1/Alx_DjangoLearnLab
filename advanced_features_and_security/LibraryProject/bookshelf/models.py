@@ -1,5 +1,6 @@
 from django.db import models
-from .CustomModels import CustomUserModel
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 
 
 class Author(models.Model):
@@ -41,8 +42,16 @@ class UserProfile(models.Model):
         ('member', 'Member'),
         ('guest', 'Guest')
     ], default='guest')
-    user = models.OneToOneField(CustomUserModel, on_delete=models.CASCADE, related_name='profiles')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profiles')
 
 
     def __str__(self):
         return f"{self.user.username} - {self.role}"
+    
+
+class CustomUser(AbstractUser):
+    date_of_birth = models.DateField(null=True)
+    profile_photo = models.ImageField(upload_to='bookshilf/image', null=True)
+
+    def __str__(self):
+        return f"{self.date_of_birth}, {self.profile_photo}"
