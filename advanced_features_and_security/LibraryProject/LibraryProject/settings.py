@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'relationship_app',  # Ensure 'bookshelf' app is included
+    'bookshelf',  # Ensure 'bookshelf' app is included
 ]
 
 MIDDLEWARE = [
@@ -124,4 +124,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Custom User Model
-AUTH_USER_MODEL = 'relationship_app.CustomUserModels'
+AUTH_USER_MODEL = 'bookshelf.CustomUserModels'
