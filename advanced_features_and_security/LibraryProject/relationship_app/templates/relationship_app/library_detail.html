@@ -1,0 +1,30 @@
+<!-- relationship_app/library_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">`
+    <title>All Libraries</title>
+</head>
+<body>
+    <h1>All Libraries and Their Books</h1>
+
+    <!-- Vous devez boucler sur la liste 'libraries' envoyée par la vue -->
+    {% for librarys in library %}
+        <hr>
+        <h2>Library: {{ librarys.name }}</h2>
+        <h3>Books in this Librarys:</h3>
+        <ul>
+            <!-- Puis, pour chaque bibliothèque, vous bouclez sur ses livres -->
+            {% for book in librarys.books.all %}
+                <li>{{ book.title }} by {{ book.author.name }}</li>
+            {% empty %}
+                <li>No books found in this librarys.</li>
+            {% endfor %}
+        </ul>
+    {% empty %}
+        <p>There are no libraries in the database.</p>
+    {% endfor %}
+
+</body>
+</html>
