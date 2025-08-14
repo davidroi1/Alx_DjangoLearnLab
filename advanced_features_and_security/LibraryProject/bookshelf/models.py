@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Permission
 
 
 class Author(models.Model):
@@ -19,7 +20,12 @@ class Book(models.Model):
         return self.title
     
     class Meta:
-        permissions = ('can_add_book', 'can_change_book', 'can_delete_book')
+        permissions = [
+            ('can_add_book', 'can add book'),
+            ('can_change_book', 'can change book'),
+            ('can_delete_book', 'can delete book')
+        ]
+
 
 class Library(models.Model):
     name = models.CharField(max_length=100)
@@ -53,6 +59,14 @@ class UserProfile(models.Model):
 class CustomUser(AbstractUser):
     date_of_birth = models.DateField(null=True)
     profile_photo = models.ImageField(upload_to='bookshilf/image', null=True)
+    
+    class Meta:
+        permissions = [
+            ('can_view', 'can view'),
+            ('can_create', 'can create'),
+            ('can_edit', 'can edit'),
+            ('can_delete', 'can delete')
+        ]
 
     def __str__(self):
         return f"{self.date_of_birth}, {self.profile_photo}"
@@ -69,6 +83,7 @@ class CustomUserManager(BaseUserManager):
 
         return user
     
+
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)

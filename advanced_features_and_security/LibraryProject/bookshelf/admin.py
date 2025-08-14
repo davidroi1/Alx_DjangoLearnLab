@@ -8,7 +8,7 @@ from .models import CustomUser
 
 
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ['name', 'email', 'date_of_birth', 'profile_photo']
+    list_display = ['date_of_birth', 'profile_photo']
     search_fields = ['email', 'date_of_birth']
 
 class BookAdmin(admin.ModelAdmin):
