@@ -4,6 +4,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import permission_required
@@ -16,7 +17,7 @@ from .models import Library
 def list_books(request):
     try:
         books = Book.objects.all()
-        return render(request, 'relationship_app/list_books.html', {'books': books})
+        return render(request, 'bookshelf/list_books.html', {'books': books})
     except Book.DoesNotExist:
         return HttpResponse("No books found.", status=404)
 
@@ -29,12 +30,12 @@ def register(request):
             login(request, user)
             return HttpResponse("Registration successful.")
     form =  UserCreationForm()
-    return render(request, 'relationship_app/register.html', {'form': form})
+    return render(request, 'bookshelf/register.html', {'form': form})
 
 
 class LibraryDetailView(ListView):
     model = Library
-    template_name = 'relationship_app/library_detail.html'
+    template_name = 'bookshelf/library_detail.html'
     context_object_name = 'library'
 
 
@@ -47,7 +48,7 @@ def user_passes(user):
 @user_passes_test(user_passes, login_url='/login/')
 def admin_view(request):
     if request.user.profiles.role == 'admin':
-        return render(request, 'relationship_app/admin_view.html')
+        return render(request, 'bookshelf/admin_view.html')
     else:
         return HttpResponse("You do not have permission to view this page.", status=403)
 
@@ -55,7 +56,7 @@ def admin_view(request):
 @user_passes_test(user_passes, login_url='/login/')
 def librarian_view(request):
     if request.user.profiles.role == 'librarian':
-        return render(request, 'relationship_app/librarian_view.html')
+        return render(request, 'bookshelf/librarian_view.html')
     else:
         return HttpResponse("You do not have permission to view this page.", status=403)
 
@@ -63,12 +64,12 @@ def librarian_view(request):
 @user_passes_test(user_passes, login_url='/login/')
 def member_view(request):
     if request.user.profiles.role == 'member':
-        return render(request, 'relationship_app/member_view.html')
+        return render(request, 'bookshelf/member_view.html')
     else:
         return HttpResponse("You do not have permission to view this page.", status=403)
     
 
-@permission_required('relationship_app.can_add_book', raise_exception=True)
+@permission_required('bookshelf.can_add', raise_exception=True)
 def create(request, id):
     try:
         author = models.Author.objects.get(id=id).first()
@@ -81,7 +82,7 @@ def create(request, id):
             return HttpResponse("Failed to create book.", status=400)
 
 
-@permission_required('relationship_app.can_delete_book', raise_exception=True)
+@permission_required('bookshelf.can_delete', raise_exception=True)
 def delete(request, id):
     try:
         book = models.Book.objects.get(id=id)
@@ -93,7 +94,7 @@ def delete(request, id):
         return HttpResponse(f"An error occurred: {str(e)}", status=500)
     
 
-@permission_required('relationship_app.can_change_book', raise_exception=True)
+@permission_required('bookshelf.can_edit', raise_exception=True)
 def update(request, id):
     try:
         book = models.Book.objects.get(id=id)
@@ -107,3 +108,4 @@ def update(request, id):
         return HttpResponse("Book not found.", status=404)
     except Exception as e:
         return HttpResponse(f"An error occurred: {str(e)}", status=500)
+
