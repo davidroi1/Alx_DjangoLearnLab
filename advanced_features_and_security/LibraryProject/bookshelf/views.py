@@ -76,7 +76,7 @@ def create(request, id):
         if request.method == 'POST':
             title = request.POST.get('title')
             if title and author:
-                book = models.Book.objects.create(title=title, author=author)
+                book_list = models.Book.objects.create(title=title, author=author)
                 return HttpResponse("Book created successfully.")
     except HttpResponse.DoesNotExist:
             return HttpResponse("Failed to create book.", status=400)
@@ -85,8 +85,8 @@ def create(request, id):
 @permission_required('bookshelf.can_delete', raise_exception=True)
 def delete(request, id):
     try:
-        book = models.Book.objects.get(id=id)
-        book.delete()
+        book_list = models.Book.objects.get(id=id)
+        book_list.delete()
         return HttpResponse("Book deleted successfully.")
     except models.Book.DoesNotExist:
         return HttpResponse("Book not found.", status=404)
@@ -97,12 +97,12 @@ def delete(request, id):
 @permission_required('bookshelf.can_edit', raise_exception=True)
 def update(request, id):
     try:
-        book = models.Book.objects.get(id=id)
+        book_list = models.Book.objects.get(id=id)
         if request.method == 'POST':
             title = request.POST.get('title')
             if title:
-                book.title = title
-                book.save()
+                book_list.title = title
+                book_list.save()
         return HttpResponse("Book updated successfully.")
     except models.Book.DoesNotExist:
         return HttpResponse("Book not found.", status=404)
