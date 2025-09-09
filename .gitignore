@@ -1,0 +1,9 @@
+api_project/api_project/__pycache__/
+api_project/api/migrations/__pycache__/
+api_project/api/__pycache__/
+api_project/api_project/__pycache__/
+django-models/LibraryProject/LibraryProject/__pycache__/
+django-models/LibraryProject/relationship_app/__pycache__/
+django-models/LibraryProject/relationship_app/migrations/__pycache__/
+.venv
+.vscode
